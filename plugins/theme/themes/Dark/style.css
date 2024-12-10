@@ -1,0 +1,181 @@
+html, body {background-color: #181818; color: #999999; }
+:root {
+  --menu-color: #666666;
+  --menu-background-color: #181818;
+  --menu-border-color: #333333;
+
+  --menu-disabled-color: #333333;
+  --menu-disabled-background-color: #181818;
+
+  --menu-highlight-color: #111111;
+  --menu-highlight-background-color: #888888;
+
+  --settings-background-color: #181818;
+  --container-bg-color: #181818;
+  --container-border-color: #333333;
+  --btn-bg-color: #999999;
+  --header-bg-color: #181818;
+  --header-border-color: #333333;
+  --dialog-bg-color: #181818;
+  --dialog-border-color: #333333;
+
+  --navbar-height: 36px;
+  --navbar-bg-color: #181818;
+  --navbar-bg-image: url(../plugins/theme/themes/Dark/images/t_bg.png);
+  --navbar-border-color: #333333;
+  --navbar-item-bg-color: #333333;
+  --navbar-item-border-color: #333333;
+  --loading-indicator-icon: url(../plugins/theme/themes/Dark/images/ajax-loader.gif);
+  --loading-indicator-side-length: 32px;
+}
+category-panel {
+  --open-background-image: url(../plugins/theme/themes/Dark/images/pnl_open.gif);
+  --close-background-image: url(../plugins/theme/themes/Dark/images/pnl_close.gif);
+  --heading-background-color: #111111;
+  --heading-border-color: #333333;
+}
+button, input.Button {
+  color: #111111;
+  background-image: url(./images/h.gif);
+  border-color: #333333;
+}
+button:not([disabled]):hover, input.Button:not([disabled]):hover {
+  background-color: #999999;
+  filter: brightness(1.2);
+}
+button:not([disabled]):hover:active, input.Button:not([disabled]):hover:active {
+  background-color: #999999;
+  filter: brightness(1.3);
+}
+
+#offcanvas-sidepanel {
+  color: #686868;
+}
+category-list {
+  background-color: #181818;
+  border: 1px solid #333333;
+}
+
+panel-label {
+  border-color: #181818;
+  --prefix-color: #FFF;
+  --badge-color: #666666;
+  --badge-background-color: #111111;
+  --status-image: url(../plugins/theme/themes/Dark/images/tstatus.png);
+}
+
+panel-label[selected] {
+  background-color: #888888;
+  color:#111111;
+  border-color: #888888;
+  --badge-color: #111111;
+  --badge-background-color: #999999;
+}
+div#preload {width: 0px; height: 0px; display: none; background-image: url(./images/toolbar.png); background-image: url(./images/tstatus.png); background-image: url(./images/t_bg.png); background-image: url(./images/r_bg.gif); background-image: url(./images/i_bg.gif); background-image: url(./images/asc.gif); background-image: url(./images/desc.gif); background-image: url(./images/pnl_open.gif); background-image: url(./images/pnl_close.gif)}
+div#cover {background: #181818}
+div#msg {background: #181818; border-top: 1px solid #333333; border-bottom: 1px solid #333333}
+div#sc {border: 1px solid #333333; background-color: #181818}
+div#sc li.se_act div {background-color: #333333; color: #888888}
+div#lng {background-color:#181818; border:1px solid #333333}
+ul.CMenu {border: 1px solid #333333; border-right: 2px solid #333333; border-bottom: 2px solid #333333; background: #181818; }
+ul.CMenu li hr {border-top: 1px solid #333333}
+ul.CMenu li a.exp {background: transparent url(./images/menuexp.gif) no-repeat scroll 140px center; }
+ul.CMenu li a.sel {background: transparent url(./images/menusel.gif) no-repeat scroll 4px center}
+
+#sel {border: 1px dotted #555555;}
+
+.navbar-toggler {
+  background-image: none;
+  border-color: #333333;
+}
+#t .nav-link {
+  color: #686868;
+}
+div#t div.TB_Separator {background-color: #333333}
+div#t div#add {background: transparent url(./images/toolbar.png) no-repeat -24px center}
+div#t div#create {background: transparent url(./images/toolbar.png) no-repeat -48px center}
+div#t div#remove {background: transparent url(./images/toolbar.png) no-repeat -72px center}
+div#t div#start {background: transparent url(./images/toolbar.png) no-repeat -96px center}
+div#t div#pause {background: transparent url(./images/toolbar.png) no-repeat -120px center}
+div#t div#stop {background: transparent url(./images/toolbar.png) no-repeat -144px center}
+div#t div#moveu {background: transparent url(./images/toolbar.png) no-repeat -168px center}
+div#t div#moved {background: transparent url(./images/toolbar.png) no-repeat -192px center}
+div#t div#search {background: transparent url(./images/toolbar.png) no-repeat -216px center}
+div#t div#rss {background: transparent url(./images/toolbar.png) no-repeat -240px center}
+div#t div#setting {background: transparent url(./images/toolbar.png) no-repeat -264px center}
+
+div#t div#help {background: transparent url(./images/quest.gif) no-repeat 0px center}
+div#t div#go {background: transparent url(./images/toolbar.png) no-repeat -96px center}
+div#t div#plugins {background: transparent url(./images/plugin.png) no-repeat 0px center}
+
+input.Textbox, input.Button, select {border: 1px solid #333333}
+a {color: #686868}
+
+.stable {background-color: #181818;}
+.stable-icon {background-image: url(./images/tstatus.png); }
+.Icon_File {background: transparent url(./images/file.gif) no-repeat left center}
+.Icon_Dir {background: transparent url(./images/dir.gif) no-repeat left center}
+.Icon_Share {background: transparent url(./images/dir.gif) no-repeat left center}
+
+div.tab {background: #181818}
+div#lcont {background: #181818}
+div#gcont div.row.Header {background: #181818;}
+div.graph_tab {background-color: #181818}
+.graph_tab_legend { color: #FFF; background-color: #181818; }
+.graph_tab_tooltip { color: #FFF; background-color: #606060; border: 1px solid #606060; }
+div#List {border: 1px solid #333333;}
+
+div#modalbg {background-color: #181818;}
+
+div#FileList, div#TrackerList, div#PeerList, div#Speed {background-color: #181818}
+
+#stg { background-color: #181818; color: #888888; border: 1px solid #333333}
+
+div#stg .lm {background-color: #181818; border: 1px solid #333333}
+
+.lm li div > div {
+  border-left-color: #616161;
+}
+.lm li div > div:first-of-type {
+  border-bottom-color: #616161;
+}
+.lm li div > div:last-of-type {
+  border-top-color: #616161;
+}
+.lm li div.toggle {background: transparent url(./images/exp.gif) no-repeat scroll center center}
+.lm li a {color: #888888}
+.lm li a.focus {background-color: #333333}
+.stg_con {background-color: #181818}
+* > fieldset {border: 1px solid #333333}
+input.disabled, button.disabled {background-color: #181818; color: #333333; border: 1px solid #333333}
+td.disabled, label.disabled, span.disabled, div.disabled {color: #333333}
+legend {color: #888888}
+select.cols {border: 1px solid #333333}
+div#dragmask {border: 1px dotted #333333}
+div#tdetails {background-color: #181818}
+
+.tabbar li.nav-item a.nav-link {
+  border: 1px solid #333333;
+  background-color: #181818;
+  color: #5B5B5B;
+}
+.tabbar li.nav-item a.nav-link:hover {
+  border-top: 2px solid #222222;
+}
+.tabbar li.nav-item.selected a.nav-link {
+  border-top: 2px solid #222222;
+  background-color: #888888;
+  color: #252525;
+}
+
+div#dlgProps textarea#prop-trackers {background: #181818; border: 1px solid #333333}
+.dlg-window {color: #888888;}
+
+div.tab {background-color: #181818}
+
+span#loadimg {background: transparent url(./images/ajax-loader.gif) no-repeat center center; }
+
+#StatusBar { border-top: 1px solid #333333; background-color: #181818; color: #888888 }
+#st_up { background:url(./images/status_up.gif) 6px no-repeat; }
+#st_down { background:url(./images/status_down.gif) 6px no-repeat; }
+.statuscell {border-right: 1px solid #333333;}

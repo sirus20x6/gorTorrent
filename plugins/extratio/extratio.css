@@ -1,0 +1,44 @@
+#dlgEditRatioRules-header {background-image: url(../../images/settings.gif)}
+
+ul#rlsul {margin: 0.25rem; padding: 0.25rem; list-style: none; white-space: nowrap;}
+ul#rlsul > li {margin: 0.2rem 0; display: flex; flex-direction: row;}
+ul#rlsul > li input[type="text"] {border: solid 1px #000000; border-radius: 3px; flex-grow: 1;}
+ul#rlsul > li input.TextboxFocus {background-color: #CFDEEF; }
+ul#rlsul > li input.TextboxNormal {background-color: #FFFFFF }
+
+#exratio_buttons1 button {width: 57px;}
+
+/* Custom break point settings for responsiveness */
+
+/* X-Small devices (portrait phones, less than 576px) */
+/* No media query for `xs` since this is the default in Bootstrap */
+/* Custom rules for medium devices */
+div#dlgEditRatioRules {max-width: 95vw;}
+div#ratioRuleList {border: solid 1px #A0A0A0; border-radius: 3px; height: 120px; overflow-y: auto;}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) { 
+  /* Custom rules for small devices */
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) { 
+  /* Custom rules for medium devices */
+  div#dlgEditRatioRules {min-width: 600px;}
+  div#ratioRuleList {border: solid 1px #A0A0A0; border-radius: 3px; height: 260px; overflow-y: auto;}
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) { 
+  /* Custom rules for large devices */
+}
+
+/* X-Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) { 
+  /* Custom rules for x-large devices */
+}
+
+/* XX-Large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) { 
+  /* Custom rules for xx-large devices */
+}

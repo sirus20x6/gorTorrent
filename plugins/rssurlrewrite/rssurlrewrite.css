@@ -1,0 +1,67 @@
+#dlgEditRules-header {background-image: url(./images/rss.gif)}
+
+.lf_rur {
+  background-color: #FFFFFF; 
+  border: 1px solid #D0D0D0;
+  border-radius: 3px;
+  flex: 1 0 160px;
+  overflow-y: auto;
+}
+.lf_rur ul {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 0.25rem;
+  padding: 0.15rem;
+  list-style-position: inside;
+  list-style: none;
+  white-space: nowrap;
+}
+.lf_rur li {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+}
+.lf_rur input[type=text] {
+  flex: 1 1 auto;
+}
+.lf_rur input.TextboxFocus {background-color: #CFDEEF;}
+.lf_rur input.TextboxNormal {background-color: #FFFFFF;}
+
+#chkRuleBtn {width: 50px}
+
+/* Custom break point settings for responsiveness */
+
+/* X-Small devices (portrait phones, less than 576px) */
+/* No media query for `xs` since this is the default in Bootstrap */
+/* Custom rules for medium devices */
+#dlgEditRules {max-width: 95vw;}
+#rlslist {max-height: 130px;}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) { 
+  /* Custom rules for small devices */
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) { 
+  /* Custom rules for medium devices */
+  #dlgEditRules {min-width: 600px;}
+  #rlslist {max-height: 260px;}
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) { 
+  /* Custom rules for large devices */
+}
+
+/* X-Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) { 
+  /* Custom rules for x-large devices */
+}
+
+/* XX-Large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) { 
+  /* Custom rules for xx-large devices */
+}

@@ -1,0 +1,46 @@
+{
+  "private": true,
+  "version": "0.0.0",
+  "description": "ruTorrent javascript tests",
+  "name": "rutorrent-tests",
+  "devDependencies": {
+    "@babel/core": "7.22.9",
+    "@babel/preset-env": "7.22.9",
+    "babel-jest": "29.5.0",
+    "jest": "29.5.0",
+    "jest-environment-jsdom": "29.5.0"
+  },
+  "dependencies": {
+    "jquery": "3.7.0"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "testEnvironmentOptions": {
+      "resources": "usable",
+      "runScripts": "dangerously"
+    },
+    "moduleDirectories": ["node_modules", "../js"],
+    "transform": {
+      "^.+\\.js$": "./.babel-jest-wrapper.js"
+    },
+    "setupFiles": ["<rootDir>/global.mock.js"],
+    "verbose": true,
+    "silent": false
+  },
+  "repository": {
+    "type": "git",
+    "url": "../"
+  },
+  "keywords": [
+    "test",
+    "rutorrent"
+  ],
+  "target": "es2020",
+  "module": "commonjs",
+  "author": "TrimmingFool",
+  "license": "GPL-3.0"
+}

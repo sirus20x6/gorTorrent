@@ -1,0 +1,29 @@
+.browseFrame {
+  position: absolute;
+  border: 1px solid #B0B0B0;
+  background-color: #F0F0F0;
+  height: 200px; /* default height 200px */
+  overflow: hidden;
+  padding: 0.25rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.rmenuobj {
+  border: 0;
+  overflow-y: auto;
+  padding: 0.25rem;
+}
+.rmenuitem {
+  color: windowtext;
+  padding: 0.15rem;
+  text-wrap: nowrap;
+
+  /* whitespace here is deliberate, and should be shown as we set it */
+  white-space: pre;
+}
+.rmenuitem.active {
+  color: highlighttext;
+  background-color: highlight;
+}
+.browseButton {width: 30px;}

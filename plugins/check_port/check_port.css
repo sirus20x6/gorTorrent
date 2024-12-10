@@ -1,0 +1,13 @@
+#port-pane .icon {
+  background-position: center;
+  background-repeat: no-repeat;
+}
+#port-pane .pstatus0 {
+  background-image: url(./images/yellow.png);
+}
+#port-pane .pstatus1 {
+  background-image: url(./images/red.png);
+}
+#port-pane .pstatus2 {
+  background-image: url(./images/green.png);
+}

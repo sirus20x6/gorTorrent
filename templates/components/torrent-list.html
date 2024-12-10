@@ -1,0 +1,120 @@
+<!-- Root container -->
+<div class="flex flex-col gap-4">
+	<!-- Header container - this doesn't get replaced by HTMX updates -->
+	<div id="torrent-list-header"></div>
+
+	<!-- Table container - this gets updated by HTMX -->
+	<div class="overflow-x-auto">
+			<table class="table w-full">
+					<!-- Table header -->
+					<thead>
+							<tr>
+									<th>Name</th>
+									<th>Size</th>
+									<th>Progress</th>
+									<th>Status</th>
+									<th>Seeds</th>
+									<th>Peers</th>
+									<th>Speed</th>
+									<th>Actions</th>
+							</tr>
+					</thead>
+					
+					<!-- Table body -->
+					<tbody>
+							{{range .Torrents}}
+							<tr class="hover">
+									<td>
+											<div class="flex flex-col">
+													<div class="font-bold">{{.Name}}</div>
+													<div class="text-sm opacity-50">Added {{.AddedDate}}</div>
+											</div>
+									</td>
+									<td>{{.Size}}</td>
+									<td>
+											<div class="flex items-center gap-2">
+													<progress class="progress progress-primary w-20" value="{{.Progress}}" max="100"></progress>
+													<span class="text-sm">{{.Progress}}%</span>
+											</div>
+									</td>
+									<td>
+											<div class="badge badge-lg {{if eq .Status "downloading"}}badge-success
+													{{else if eq .Status "seeding"}}badge-info
+													{{else if eq .Status "paused"}}badge-warning
+													{{else}}badge-error{{end}}">
+													{{.Status}}
+											</div>
+									</td>
+									<td>{{.Seeds}}</td>
+									<td>{{.Peers}}</td>
+									<td>
+											<div class="flex flex-col gap-1">
+													<div class="text-success flex items-center gap-1">
+															<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+																	<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+															</svg>
+															{{.DownSpeed}}/s
+													</div>
+													<div class="text-info flex items-center gap-1">
+															<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+																	<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+															</svg>
+															{{.UpSpeed}}/s
+													</div>
+											</div>
+									</td>
+									<td>
+											<div class="join" onclick="event.stopPropagation()">
+													{{if eq .Status "paused"}}
+													<button class="btn btn-sm btn-ghost join-item" 
+																	hx-post="/torrents/{{.Hash}}/start"
+																	hx-target="#torrent-list">
+															<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+																	<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+															</svg>
+													</button>
+													{{else}}
+													<button class="btn btn-sm btn-ghost join-item"
+																	hx-post="/torrents/{{.Hash}}/pause"
+																	hx-target="#torrent-list">
+															<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+																	<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+															</svg>
+													</button>
+													{{end}}
+													<button class="btn btn-sm btn-ghost join-item"
+																	hx-delete="/torrents/{{.Hash}}"
+																	hx-confirm="Are you sure you want to delete this torrent?"
+																	hx-target="#torrent-list">
+															<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+																	<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+															</svg>
+													</button>
+											</div>
+									</td>
+							</tr>
+							{{end}}
+					</tbody>
+			</table>
+	</div>
+</div>
+
+<!-- Mount the React header component -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+	const headerContainer = document.getElementById('torrent-list-header');
+	if (headerContainer) {
+			const root = ReactDOM.createRoot(headerContainer);
+			root.render(
+					React.createElement(TorrentListHeader, {
+							onFilter: (filter) => {
+									htmx.ajax('GET', `/torrents/filter?type=${filter}`, '#torrent-list')
+							},
+							onSort: (sort) => {
+									htmx.ajax('GET', `/torrents/sort?by=${sort}`, '#torrent-list')
+							}
+					})
+			);
+	}
+});
+</script>

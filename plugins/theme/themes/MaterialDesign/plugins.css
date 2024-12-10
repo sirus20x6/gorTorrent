@@ -1,0 +1,177 @@
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+/*src: url(https://fonts.gstatic.com/s/ubuntu/v20/4iCs6KVjbNBYlgoKcg72j00.woff2) format('woff2');*/
+  src: url(./font/4iCs6KVjbNBYlgoKcg72j00.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+/*src: url(https://fonts.gstatic.com/s/ubuntu/v20/4iCs6KVjbNBYlgoKew72j00.woff2) format('woff2');*/
+  src: url(./font/4iCs6KVjbNBYlgoKew72j00.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+/*src: url(https://fonts.gstatic.com/s/ubuntu/v20/4iCs6KVjbNBYlgoKcw72j00.woff2) format('woff2');*/
+  src: url(./font/4iCs6KVjbNBYlgoKcw72j00.woff2) format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+/*src: url(https://fonts.gstatic.com/s/ubuntu/v20/4iCs6KVjbNBYlgoKfA72j00.woff2) format('woff2');*/
+  src: url(./font/4iCs6KVjbNBYlgoKfA72j00.woff2) format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+/*src: url(https://fonts.gstatic.com/s/ubuntu/v20/4iCs6KVjbNBYlgoKcQ72j00.woff2) format('woff2');*/
+  src: url(./font/4iCs6KVjbNBYlgoKcQ72j00.woff2) format('woff2');
+  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+/*src: url(https://fonts.gstatic.com/s/ubuntu/v20/4iCs6KVjbNBYlgoKfw72.woff2) format('woff2');*/
+  src: url(./font/4iCs6KVjbNBYlgoKfw72.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+.browseFrame {
+  border: 1px solid #161F25;
+  background-color: #273238;
+}
+.tskconsole, .exconsole, .console, .starterConsole { background: #333333 }
+#tsk_btns input.Button {
+  margin: 0px 3px
+}
+        
+#tsk_btns .scplay {
+  display:none
+}
+
+.cCell { color: black }
+#meter-disk-value {float: left; border: 1px inset #1b1b1b; border-bottom: none; background: #96CE00 url(./images/headers.png) repeat-x 0px -138px;}
+#meter-disk-text, #meter-band-text {
+  color: #fff;
+  text-shadow: 0px 0px 2px #000;
+  font-size: 11px;
+  font-family: Ubuntu;
+  z-index: 1;
+}
+#meter-disk-pane .icon {background: url(./images/status_icons.png) no-repeat center -336px;}
+
+#meter-cpu-text { color: #fff; text-shadow: 0px 0px 2px #000; font-family: Ubuntu; }
+#meter-cpu-pane .icon {
+  background: url(./images/status_icons.png) no-repeat center -320px !important;
+}
+
+#tcreate-header {
+  background-image: url(./images/dlg-toolbars.gif);
+  background-position-y: -24px;
+}
+div#dlgAddRSS { background-color: #222222; border-top: 1px solid #333; border-right: 1px solid #1b1b1b; border-left: 1px solid #1b1b1b; border-bottom: 1px solid #000000; }
+#dlgAddRSS-header, #dlgAddRSS-header {
+  background-image: url(./images/dlg-toolbars.gif);
+  background-position-y: -48px;
+}
+
+.lf li input.TextboxFocus { background-color: transparent; color: #009DDD }
+
+.cCell { color:#333; }
+
+.Cell0 { background-color: #FFFDF0; border: 1px dotted #888888; }
+.Cell1 { background-color: #7EB400; }
+.Cell2 { background-color: #75A602; }
+.Cell3 { background-color: #6D9A02; }
+.Cell4 { background-color: #628C02; }
+.Cell5 { background-color: #5B8101; }
+.Cell6 { background-color: #527501; }
+.Cell7 { background-color: #4A6801; }
+.Cell8 { background-color: #435F01; }
+.Cell9 { background-color: #3B5401; }
+.CellA { background-color: #C1C3C3; }
+.CellB { background-color: #999A9A; }
+.CellC { background-color: #767776; }
+.CellD { background-color: #6B6C6B; }
+.CellE { background-color: #60605E; }
+.CellF { background-color: #000; color:#fff; }
+
+#tCellNotSupported { text-align: center; }
+#tRowNotSupported { vertical-align: middle; color: red; }
+
+#dlgEditRules-header, #dlgEditRatioRules-header, #dlgEditFilters-header {
+  background-image: url(./images/dlg-toolbars.gif);
+  background-position-y: -72px;
+}
+div#dlgEditRules,div#dlgEditRatioRules { width:600px; }
+
+.lf_rru, .lf_rur { border:none; border-radius:2px; background-color:#2D2D2D;}
+
+#exratio_buttons1 input.Button {margin:0px 3px;}
+
+#autodl-tb { background: transparent url(./images/autodll-irc1.png) no-repeat center; }
+#autodl-tb:hover { background: transparent url(./images/autodll-irc2.png) no-repeat center; }
+#autodl-multiselect-header { background-image: url("./images/dlg-autodl-irc.gif"); }
+
+.shieven { background: #191919; }
+.shiodd { background: #333333; }
+
+div#webuiUpdateToggle.pause { background: transparent url(./images/pauseui.png) no-repeat; }
+div#webuiUpdateToggle.pause:hover {	background: transparent url(./images/pauseuih.png) no-repeat; }
+
+div#webuiUpdateToggle.resume { background: transparent url(./images/playui.png) no-repeat; }
+div#webuiUpdateToggle.resume:hover { background: transparent url(./images/playuih.png) no-repeat; }
+
+div#webuiRefresh { background: transparent url(./images/refreshui.png) no-repeat; }
+div#webuiRefresh:hover { background: transparent url(./images/refreshuih.png) no-repeat; }
+
+div#linkproxy {	background: transparent url(./images/proxy.png) no-repeat; }
+div#linkproxy:hover { background: transparent url(./images/proxyh.png) no-repeat; }
+
+div#linklogs {	background: transparent url(./images/linklogs.png) no-repeat; }
+div#linklogs:hover { background: transparent url(./images/linklogsh.png) no-repeat; }
+
+div#linkseedboxmanager { background: transparent url(./images/seedboxmanager.png) no-repeat; }
+div#linkseedboxmanager:hover { background: transparent url(./images/seedboxmanagerh.png) no-repeat; }
+
+div#plugin { background: transparent url(./images/plugin.png) no-repeat; }
+div#plugin:hover { background: transparent url(./images/pluginh.png) no-repeat; }
+
+#maillayout #letterform table tr td { background: #181818 }
+#maillayout #replyform table tr td { background: #181818 }
+
+div#chat { background-image: url(./images/chat.png); }
+div#chat:hover { background-image: url(./images/chat3.png); }
+div#tchat div.dlg-header { background-image: url(./images/chat2.png); }
+
+#userlist, #chatselect, #chatarea, #chatselect option {
+  border:none !important;
+  background-color:#6F6F6F !important;
+  border-radius:2px !important;
+  color:#fff !important;
+}
+
+div#logoff { background-image: url(./images/logoff.png); }
+div#logoff:hover { background-image: url(./images/logoff3.png); }
+div#logoffDlg div.dlg-header { background-image: url(./images/logoff2.png); }
+
+.noty_alert, .noty_success { color: #000000; text-shadow: 0 -1px 0 #ffffff }
+
+#port-ip-text { color: #FFF; }

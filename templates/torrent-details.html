@@ -1,0 +1,196 @@
+<dialog id="torrent_details_modal" class="modal modal-open">
+	<div class="modal-box w-11/12 max-w-5xl">
+			<form method="dialog">
+					<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" hx-get="/close-modal" hx-target="#modal">✕</button>
+			</form>
+			
+			<h3 class="font-bold text-lg mb-4">{{.Name}}</h3>
+
+			<!-- Tabs -->
+			<div role="tablist" class="tabs tabs-bordered">
+					<input type="radio" name="details_tabs" role="tab" class="tab" aria-label="General" checked />
+					<div role="tabpanel" class="tab-content p-4">
+							<!-- General Info -->
+							<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+									<div class="stats stats-vertical shadow">
+											<div class="stat">
+													<div class="stat-title">Progress</div>
+													<div class="stat-value">
+															<progress class="progress progress-primary w-full" value="{{.Progress}}" max="100"></progress>
+															{{.Progress}}%
+													</div>
+											</div>
+											<div class="stat">
+													<div class="stat-title">Status</div>
+													<div class="stat-value text-lg">
+															<div class="badge badge-lg {{if eq .Status "downloading"}}badge-success
+																	{{else if eq .Status "seeding"}}badge-info
+																	{{else if eq .Status "paused"}}badge-warning
+																	{{else}}badge-error{{end}}">
+																	{{.Status}}
+															</div>
+													</div>
+											</div>
+									</div>
+
+									<div class="stats stats-vertical shadow">
+											<div class="stat">
+													<div class="stat-title">Download Speed</div>
+													<div class="stat-value text-success text-lg">{{.DownSpeed}}/s</div>
+													<div class="stat-desc">Downloaded: {{.Downloaded}}</div>
+											</div>
+											<div class="stat">
+													<div class="stat-title">Upload Speed</div>
+													<div class="stat-value text-info text-lg">{{.UpSpeed}}/s</div>
+													<div class="stat-desc">Uploaded: {{.Uploaded}}</div>
+											</div>
+									</div>
+
+									<div class="col-span-1 md:col-span-2">
+											<table class="table">
+													<tbody>
+															<tr>
+																	<th>Size</th>
+																	<td>{{.Size}}</td>
+															</tr>
+															<tr>
+																	<th>Save Path</th>
+																	<td>{{.SavePath}}</td>
+															</tr>
+															<tr>
+																	<th>Added On</th>
+																	<td>{{.AddedDate}}</td>
+															</tr>
+															<tr>
+																	<th>Hash</th>
+																	<td><code>{{.Hash}}</code></td>
+															</tr>
+															<tr>
+																	<th>Comment</th>
+																	<td>{{.Comment}}</td>
+															</tr>
+													</tbody>
+											</table>
+									</div>
+							</div>
+					</div>
+
+					<input type="radio" name="details_tabs" role="tab" class="tab" aria-label="Files" />
+					<div role="tabpanel" class="tab-content p-4">
+							<!-- Files List -->
+							<div class="overflow-x-auto">
+									<table class="table table-zebra">
+											<thead>
+													<tr>
+															<th>Name</th>
+															<th>Size</th>
+															<th>Progress</th>
+															<th>Priority</th>
+													</tr>
+											</thead>
+											<tbody>
+													{{range .Files}}
+													<tr>
+															<td>{{.Path}}</td>
+															<td>{{.Size}}</td>
+															<td>
+																	<progress class="progress progress-primary w-full" 
+																					 value="{{.Progress}}" 
+																					 max="100"></progress>
+															</td>
+															<td>
+																	<select class="select select-bordered select-sm w-full"
+																					hx-put="/torrents/{{$.Hash}}/files/{{.Index}}/priority"
+																					hx-trigger="change">
+																			<option value="0" {{if eq .Priority 0}}selected{{end}}>Don't Download</option>
+																			<option value="1" {{if eq .Priority 1}}selected{{end}}>Normal</option>
+																			<option value="2" {{if eq .Priority 2}}selected{{end}}>High</option>
+																	</select>
+															</td>
+													</tr>
+													{{end}}
+											</tbody>
+									</table>
+							</div>
+					</div>
+
+					<input type="radio" name="details_tabs" role="tab" class="tab" aria-label="Peers" />
+					<div role="tabpanel" class="tab-content p-4">
+							<!-- Peers List -->
+							<div class="overflow-x-auto">
+									<table class="table table-zebra">
+											<thead>
+													<tr>
+															<th>Address</th>
+															<th>Client</th>
+															<th>Flags</th>
+															<th>Progress</th>
+															<th>Down Speed</th>
+															<th>Up Speed</th>
+													</tr>
+											</thead>
+											<tbody>
+													{{range .Peers}}
+													<tr>
+															<td>{{.Address}}</td>
+															<td>{{.Client}}</td>
+															<td>{{.Flags}}</td>
+															<td>
+																	<progress class="progress progress-primary w-full" 
+																					 value="{{.Progress}}" 
+																					 max="100"></progress>
+															</td>
+															<td class="text-success">{{.DownSpeed}}/s</td>
+															<td class="text-info">{{.UpSpeed}}/s</td>
+													</tr>
+													{{end}}
+											</tbody>
+									</table>
+							</div>
+					</div>
+
+					<input type="radio" name="details_tabs" role="tab" class="tab" aria-label="Trackers" />
+					<div role="tabpanel" class="tab-content p-4">
+							<!-- Trackers List -->
+							<div class="overflow-x-auto">
+									<table class="table table-zebra">
+											<thead>
+													<tr>
+															<th>URL</th>
+															<th>Status</th>
+															<th>Seeds</th>
+															<th>Peers</th>
+															<th>Last Updated</th>
+													</tr>
+											</thead>
+											<tbody>
+													{{range .Trackers}}
+													<tr>
+															<td>{{.URL}}</td>
+															<td>
+																	<div class="badge {{if eq .Status "working"}}badge-success
+																			{{else if eq .Status "updating"}}badge-warning
+																			{{else if eq .Status "not working"}}badge-error
+																			{{else}}badge-ghost{{end}}">
+																			{{.Status}}
+																	</div>
+															</td>
+															<td>{{.Seeds}}</td>
+															<td>{{.Peers}}</td>
+															<td>{{.LastUpdated}}</td>
+													</tr>
+													{{end}}
+											</tbody>
+									</table>
+							</div>
+					</div>
+			</div>
+
+			<div class="modal-action">
+					<button class="btn" hx-get="/close-modal" hx-target="#modal">Close</button>
+			</div>
+	</div>
+	<form method="dialog" class="modal-backdrop">
+			<button>close</button>
+	</form>
+</dialog>

@@ -1,0 +1,28 @@
+ruTorrent-web/
+├── main.go                      # Main application entry point
+├── go.mod                       # Go module file
+├── go.sum                       # Go module checksums
+│
+├── handlers/                    # HTTP handlers 
+│   ├── base.go                 # Base handler setup
+│   ├── torrents.go             # Torrent-related handlers
+│   └── modals.go               # Modal dialog handlers
+│
+├── services/                    # Business logic
+│   ├── rtorrent.go             # rTorrent XML-RPC client
+│   └── torrent.go              # Torrent service layer
+│
+├── static/                      # Static assets
+│   ├── css/
+│   │   └── app.css            # Custom CSS if needed
+│   └── js/
+│       ├── app.js             # Main JavaScript file
+│       └── components/        # React components
+│           └── TorrentListHeader.js
+│
+└── templates/                   # HTML templates
+    ├── base.html              # Base layout template
+    ├── components/            # Reusable template components
+    │   └── torrent-list.html 
+    └── modals/                # Modal dialog templates
+        └── add-torrent.html

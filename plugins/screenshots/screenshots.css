@@ -1,0 +1,7 @@
+.scplay {
+  display: none;
+  text-wrap: nowrap;
+  width: 50px;
+  padding: 0;
+}
+#sclast {margin-right: auto;}
