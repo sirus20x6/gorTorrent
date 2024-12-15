@@ -6,6 +6,7 @@ import (
     "fmt"
     "path/filepath"
     "encoding/json"
+    "sync"
 )
 
 type Config struct {
@@ -63,10 +64,17 @@ var defaultConfig = Config{
     },
 }
 
-var cfg *Config
+var (
+    cfg  *Config
+    mu   sync.RWMutex
+    once sync.Once
+)
 
 // Load loads the configuration from the specified file
 func Load(configPath string) (*Config, error) {
+    mu.Lock()
+    defer mu.Unlock()
+
     if cfg != nil {
         return cfg, nil
     }
@@ -102,6 +110,9 @@ func Load(configPath string) (*Config, error) {
 
 // Save saves the current configuration to the specified file
 func Save(configPath string) error {
+    mu.RLock()
+    defer mu.RUnlock()
+
     if cfg == nil {
         return fmt.Errorf("no configuration loaded")
     }
@@ -125,15 +136,25 @@ func Save(configPath string) error {
 
 // Get returns the current configuration
 func Get() *Config {
-    if cfg == nil {
-        cfg = &Config{}
-        *cfg = defaultConfig
-    }
+    mu.RLock()
+    defer mu.RUnlock()
+
+    // Initialize the config once if it hasn't been loaded
+    once.Do(func() {
+        if cfg == nil {
+            cfg = &Config{}
+            *cfg = defaultConfig
+        }
+    })
+
     return cfg
 }
 
 // Update updates the configuration with new values
 func Update(newCfg Config) error {
+    mu.Lock()
+    defer mu.Unlock()
+
     if cfg == nil {
         cfg = &Config{}
     }
@@ -149,27 +170,3 @@ func DefaultConfigPath() string {
     }
     return filepath.Join(configDir, "rutorrent", "config.json")
 }
-
-// Example config.json:
-/*
-{
-    "rtorrent": {
-        "endpoint": "http://localhost/RPC2",
-        "username": "",
-        "password": ""
-    },
-    "server": {
-        "port": 3000,
-        "host": "127.0.0.1",
-        "base_url": "/",
-        "temp_dir": "/tmp/rutorrent",
-        "download_dir": "/downloads"
-    },
-    "auth": {
-        "enabled": false,
-        "type": "none",
-        "username": "",
-        "password": ""
-    }
-}
-*/
