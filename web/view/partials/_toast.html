@@ -1,0 +1,7 @@
+{{/* templates/partials/_toast.html */}}
+{{ define "toast" }}
+<div class="alert {{ if eq .Type "error" }}alert-error{{ else if eq .Type "info" }}alert-info{{ else if eq .Type "success" }}alert-success{{ else }}alert-warning{{ end }} mb-2">
+    <span>{{ .Message }}</span>
+    <button onclick="this.parentElement.remove()" class="btn btn-ghost btn-xs">✕</button>
+</div>
+{{ end }}

@@ -1,0 +1,106 @@
+{{/* templates/table/column_menu.html */}}
+{{define "table/column_menu"}}
+<div class="dropdown">
+    <button class="btn btn-ghost btn-sm" tabindex="0">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+            <path fill-rule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5zm2-2h10v2H5V3z" clip-rule="evenodd" />
+        </svg>
+        <span class="ml-1">Columns</span>
+    </button>
+    <ul class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 gap-1">
+        {{range .Columns}}
+        <li>
+            <label class="label cursor-pointer justify-start gap-2">
+                <input type="checkbox" class="checkbox checkbox-sm"
+                    {{if .Enabled}}checked{{end}}
+                    hx-get="/table/{{$.Table.ID}}/column/toggle?col={{.ID}}"
+                    hx-target="closest table"
+                    hx-swap="outerHTML">
+                <span class="label-text">{{.Text}}</span>
+            </label>
+        </li>
+        {{end}}
+    </ul>
+</div>
+{{end}}
+
+{{/* Update table.html to include resize handles */}}
+{{define "table/header_cell"}}
+<th class="select-none relative" style="width:{{.Width}}px">
+    <div class="flex items-center gap-2">
+        {{template "table/sort_button" .}}
+        
+        {{/* Resize handle */}}
+        <div class="absolute right-0 top-0 bottom-0 w-2 cursor-ew-resize"
+            onmousedown="startColumnResize(event, '{{.ID}}', {{.Width}})">
+        </div>
+    </div>
+</th>
+{{end}}
+
+{{/* Add column resize JavaScript */}}
+<script>
+let resizing = false;
+let startX = 0;
+let startWidth = 0;
+let currentCol = null;
+
+function startColumnResize(e, colId, width) {
+    resizing = true;
+    startX = e.clientX;
+    startWidth = width;
+    currentCol = colId;
+    
+    document.addEventListener('mousemove', handleColumnResize);
+    document.addEventListener('mouseup', stopColumnResize);
+    
+    // Add resize overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'fixed inset-0 bg-transparent cursor-ew-resize z-50';
+    document.body.appendChild(overlay);
+}
+
+function handleColumnResize(e) {
+    if (!resizing) return;
+    
+    const diff = e.clientX - startX;
+    const newWidth = Math.max(50, startWidth + diff); // Minimum width of 50px
+    
+    // Update visual width immediately
+    const cells = document.querySelectorAll(`[data-col="${currentCol}"]`);
+    cells.forEach(cell => cell.style.width = `${newWidth}px`);
+}
+
+function stopColumnResize(e) {
+    if (!resizing) return;
+    
+    const diff = e.clientX - startX;
+    const newWidth = Math.max(50, startWidth + diff);
+    
+    // Send final width to server
+    htmx.ajax('GET', `/table/${tableId}/column/resize?col=${currentCol}&width=${newWidth}`, {
+        target: 'closest table'
+    });
+    
+    // Clean up
+    resizing = false;
+    document.removeEventListener('mousemove', handleColumnResize);
+    document.removeEventListener('mouseup', stopColumnResize);
+    document.querySelector('.cursor-ew-resize').remove();
+}
+
+// Optional: Add column width persistence
+document.addEventListener('htmx:afterSettle', function(evt) {
+    if (evt.target.tagName === 'TABLE') {
+        // Restore any saved column widths from localStorage
+        const tableId = evt.target.id;
+        const savedWidths = JSON.parse(localStorage.getItem(`table-${tableId}-widths`) || '{}');
+        
+        Object.entries(savedWidths).forEach(([colId, width]) => {
+            const cells = document.querySelectorAll(`[data-col="${colId}"]`);
+            cells.forEach(cell => cell.style.width = `${width}px`);
+        });
+    }
+});
+</script>

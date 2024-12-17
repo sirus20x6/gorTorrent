@@ -1,0 +1,10 @@
+{{/* templates/layouts/base.html */}}
+<script>
+document.body.addEventListener('showToast', function(evt) {
+    // Remove toast after 5 seconds
+    const toasts = document.querySelectorAll('.toast .alert');
+    toasts.forEach(toast => {
+        setTimeout(() => toast.remove(), 5000);
+    });
+});
+</script>

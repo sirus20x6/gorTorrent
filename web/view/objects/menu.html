@@ -1,0 +1,126 @@
+{{/* templates/objects/menu.html */}}
+<div class="dropdown dropdown-hover">
+    <label tabindex="0" class="btn btn-ghost btn-xs">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+        </svg>
+    </label>
+    <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+        {{range .Actions}}
+            {{if .Divider}}
+                <li class="divider"></li>
+            {{else}}
+                <li>
+                    <a class="{{if .Dangerous}}text-error{{end}}"
+                       {{if .HxGet}}hx-get="{{.HxGet}}"{{end}}
+                       {{if .HxPost}}hx-post="{{.HxPost}}"{{end}}
+                       {{if .HxTarget}}hx-target="{{.HxTarget}}"{{end}}
+                       {{if .HxSwap}}hx-swap="{{.HxSwap}}"{{end}}
+                       {{if .HxConfirm}}hx-confirm="{{.HxConfirm}}"{{end}}>
+                        {{if .Icon}}
+                            <i class="{{.Icon}} mr-2"></i>
+                        {{end}}
+                        {{.Text}}
+                    </a>
+                </li>
+            {{end}}
+        {{end}}
+    </ul>
+</div>
+
+{{/* templates/objects/modals/default.html */}}
+<dialog id="object-modal" class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg">{{.Title}}</h3>
+        <div class="py-4">
+            {{.Content}}
+        </div>
+        <div class="modal-action">
+            <button class="btn" onclick="closeModal()">Cancel</button>
+            <button class="btn btn-primary"
+                    hx-post="/objects/{{.ObjectType}}/{{.Action}}"
+                    hx-target="{{.Target}}"
+                    hx-include="closest form">
+                {{.ActionText}}
+            </button>
+        </div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>
+
+{{/* templates/objects/modals/torrent_remove.html */}}
+<dialog id="remove-modal" class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg">Remove Torrent</h3>
+        <div class="py-4">
+            <p>Are you sure you want to remove "{{.Properties.name}}"?</p>
+            <form class="mt-4">
+                <label class="label cursor-pointer">
+                    <span class="label-text">Also delete files</span>
+                    <input type="checkbox" name="delete_files" class="checkbox">
+                </label>
+            </form>
+        </div>
+        <div class="modal-action">
+            <button class="btn" onclick="closeModal()">Cancel</button>
+            <button class="btn btn-error"
+                    hx-post="/objects/torrent/remove?id={{.ObjectID}}"
+                    hx-target="#torrents-table"
+                    hx-include="closest form">
+                Remove
+            </button>
+        </div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>
+
+{{/* templates/objects/modals/torrent_move.html */}}
+<dialog id="move-modal" class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg">Move Torrent Files</h3>
+        <div class="py-4">
+            <form>
+                <div class="form-control w-full">
+                    <label class="label">
+                        <span class="label-text">Destination Path</span>
+                    </label>
+                    <input type="text" name="path" class="input input-bordered w-full" 
+                           placeholder="/path/to/destination"
+                           value="{{.Properties.path}}">
+                </div>
+            </form>
+        </div>
+        <div class="modal-action">
+            <button class="btn" onclick="closeModal()">Cancel</button>
+            <button class="btn btn-primary"
+                    hx-post="/objects/torrent/move?id={{.ObjectID}}"
+                    hx-target="#torrents-table"
+                    hx-include="closest form">
+                Move
+            </button>
+        </div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>
+
+{{/* templates/objects/result.html */}}
+<div class="alert {{if .Success}}alert-success{{else}}alert-error{{end}} shadow-lg">
+    <div>
+        {{if .Success}}
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+        {{else}}
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+        {{end}}
+        <span>{{.Message}}</span>
+    </div>
+</div>

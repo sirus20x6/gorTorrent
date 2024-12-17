@@ -1,0 +1,109 @@
+.
+├── cmd
+│   └── server
+│       └── main.go
+├── directory-Structure.txt
+├── go.mod
+├── go.sum
+├── index.html
+├── internal
+│   ├── cache.go
+│   ├── config
+│   │   ├── config.go
+│   │   └── settings.go
+│   ├── rtorrent
+│   │   └── client.go
+│   ├── services
+│   │   ├── client.go
+│   │   ├── lock.go
+│   │   ├── logger.go
+│   │   ├── rtorrent.go
+│   │   ├── settings.go
+│   │   ├── torrent.go
+│   │   ├── torrent_service.go
+│   │   ├── uisettings.go
+│   │   ├── user
+│   │   │   └── user.go
+│   │   └── which.go
+│   ├── settings
+│   │   └── settings.go
+│   ├── storage
+│   │   └── table_storage.go
+│   ├── table
+│   │   ├── handlers.go
+│   │   └── table.go
+│   ├── torrentfile
+│   │   └── torrentfile.go
+│   ├── util
+│   │   ├── lfs
+│   │   │   └── lfs.go
+│   │   ├── minifier
+│   │   │   └── minifier.go
+│   │   ├── permission
+│   │   │   └── permission.go
+│   │   └── utility
+│   │       └── utility.go
+│   ├── webui
+│   │   └── webui.go
+│   └── xmlrpc
+│       ├── methods.go
+│       └── xmlrpc.go
+├── main.go
+├── network
+│   └── client.go
+├── pkg
+│   ├── fileutil
+│   │   └── fileutil.go
+│   ├── logger
+│   │   └── logger.go
+│   └── sendfile
+│       └── sendfile.go
+├── public
+│   └── css
+│       └── dialog.css
+└── web
+    ├── handlers
+    │   ├── addtorrent
+    │   │   └── addtorrent.go
+    │   ├── base.go
+    │   ├── modals.go
+    │   ├── notifications.go
+    │   ├── objects.go
+    │   ├── speed.go
+    │   ├── table_columns.go
+    │   ├── table.go
+    │   ├── torrents.go
+    │   └── webui.go
+    ├── middleware
+    │   ├── cachedresponse
+    │   │   └── cached.go
+    │   └── requests
+    │       └── requests.go
+    ├── static
+    │   └── css
+    │       └── app.css
+    └── view
+        ├── base.html
+        ├── components
+        │   ├── table.html
+        │   └── torrent-list.html
+        ├── index.html
+        ├── layouts
+        │   ├── base.html
+        │   └── main.html
+        ├── modals
+        │   └── add-torrent.html
+        ├── objects
+        │   └── menu.html
+        ├── partials
+        │   ├── settings_modal.html
+        │   ├── speed_graph.html
+        │   └── _toast.html
+        ├── table
+        │   ├── column_menu.html
+        │   └── table.html
+        ├── table.html
+        ├── torrent-details.html
+        └── torrents
+            ├── _header.html
+            └── _list.html

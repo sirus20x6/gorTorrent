@@ -1,0 +1,40 @@
+# Dialog Styles
+<style>
+.dialog {
+    min-width: 300px;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: hidden;
+    transform: translate(0, 0);
+}
+
+.dialog-content {
+    overflow-y: auto;
+    max-height: calc(90vh - 4rem);
+}
+
+#modal-backdrop {
+    transition: opacity 0.15s ease-in-out;
+}
+
+.dialog[data-modal="true"] {
+    pointer-events: auto;
+}
+
+/* Ensure dialog stays on top of other elements */
+.dialog {
+    isolation: isolate;
+}
+
+/* Handle mobile responsiveness */
+@media (max-width: 640px) {
+    .dialog {
+        width: 90vw;
+        max-height: 80vh;
+    }
+    
+    .dialog-content {
+        max-height: calc(80vh - 4rem);
+    }
+}
+</style>

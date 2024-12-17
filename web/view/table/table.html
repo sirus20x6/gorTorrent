@@ -1,0 +1,127 @@
+{{/* templates/table/table.html */}}
+<div class="overflow-x-auto w-full">
+    <table class="table w-full">
+        {{template "table/header" .}}
+        <tbody 
+            hx-get="/table/{{ .Table.ID }}/rows"
+            hx-trigger="load, rowsChanged from:body"
+            hx-target="this"
+            hx-swap="innerHTML">
+            {{template "table/rows" .}}
+        </tbody>
+    </table>
+</div>
+
+{{/* templates/table/header.html */}}
+{{define "table/header"}}
+<thead>
+    <tr>
+        {{range .Table.Columns}}
+            {{if .Enabled}}
+            <th class="select-none" style="width:{{.Width}}px">
+                <div class="flex items-center gap-2">
+                    {{if .Sortable}}
+                    <button class="flex items-center gap-2"
+                            hx-get="/table/{{ $.Table.ID }}/sort?col={{ .ID }}"
+                            hx-target="closest tbody"
+                            hx-swap="innerHTML">
+                        {{ .Text }}
+                        {{if eq $.Table.SortCol .ID}}
+                            {{if $.Table.SortReverse}}
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                            {{else}}
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
+                            </svg>
+                            {{end}}
+                        {{end}}
+                    </button>
+                    {{else}}
+                        {{ .Text }}
+                    {{end}}
+                </div>
+            </th>
+            {{end}}
+        {{end}}
+    </tr>
+</thead>
+{{end}}
+
+{{/* templates/table/rows.html */}}
+{{define "table/rows"}}
+{{range .Rows}}
+    <tr class="{{if index $.Table.SelectedRows .ID}}bg-base-200{{else}}hover:bg-base-100{{end}}"
+        hx-get="/table/{{ $.Table.ID }}/select?row={{ .ID }}"
+        hx-target="closest tbody"
+        hx-swap="innerHTML">
+
+        {{range $colIndex, $col := $.Table.Columns}}
+            {{if $col.Enabled}}
+            <td class="{{if eq $col.Align 1}}text-left{{else if eq $col.Align 2}}text-center{{else}}text-right{{end}}">
+                {{if eq $colIndex 0}}
+                    {{/* First column - show icon if present */}}
+                    {{with .Icon}}
+                        {{if .Src}}
+                            <img src="{{.Src}}" class="w-4 h-4 inline mr-2" alt="">
+                        {{else}}
+                            <span class="{{.}} mr-2"></span>
+                        {{end}}
+                    {{end}}
+                {{end}}
+
+                {{$value := index .Data $col.ID}}
+                {{if eq $col.Type 2}} {{/* Progress */}}
+                    <div class="flex items-center gap-2">
+                        <progress class="progress progress-primary w-full" value="{{$value}}" max="100"></progress>
+                        <span class="text-sm">{{$value}}%</span>
+                    </div>
+                {{else}}
+                    <div>{{$value}}</div>
+                {{end}}
+            </td>
+            {{end}}
+        {{end}}
+    </tr>
+{{else}}
+    <tr>
+        <td colspan="{{len $.Table.Columns}}" class="text-center">
+            No data available
+        </td>
+    </tr>
+{{end}}
+{{end}}
+
+{{/* templates/table/pagination.html */}}
+{{define "table/pagination"}}
+<div class="flex justify-between items-center p-4">
+    <span class="text-sm text-base-content/70">
+        Showing {{.StartRow}} to {{.EndRow}} of {{.TotalRows}} entries
+    </span>
+
+    <div class="join">
+        <button class="join-item btn btn-sm"
+                hx-get="/table/{{.Table.ID}}/rows?page={{.PrevPage}}"
+                hx-target="closest tbody"
+                {{if not .HasPrev}}disabled{{end}}>
+            Previous
+        </button>
+        
+        {{range .Pages}}
+            <button class="join-item btn btn-sm {{if eq . $.CurrentPage}}btn-active{{end}}"
+                    hx-get="/table/{{$.Table.ID}}/rows?page={{.}}"
+                    hx-target="closest tbody">
+                {{.}}
+            </button>
+        {{end}}
+
+        <button class="join-item btn btn-sm"
+                hx-get="/table/{{.Table.ID}}/rows?page={{.NextPage}}"
+                hx-target="closest tbody"
+                {{if not .HasNext}}disabled{{end}}>
+            Next
+        </button>
+    </div>
+</div>
+{{end}}

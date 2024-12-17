@@ -1,0 +1,68 @@
+{{/* templates/layouts/main.html */}}
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ruTorrent Web - {{.Version}}</title>
+    
+    <!-- Stylesheets -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.0/dist/full.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+<body class="min-h-screen bg-base-100">
+    <!-- Page Layout -->
+    <div class="drawer lg:drawer-open">
+        <input id="drawer-toggle" type="checkbox" class="drawer-toggle" />
+        
+        <!-- Page Content -->
+        <div class="drawer-content flex flex-col min-h-screen">
+            <!-- Top Navigation -->
+            {{ template "partials/navbar" . }}
+
+            <!-- Main Content Area -->
+            <div class="flex-1 p-4 overflow-x-auto">
+                {{ template "content" . }}
+            </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="drawer-side" 
+             {{ if not .Settings.ShowCats }}style="display:none"{{ end }}>
+            {{ template "partials/sidebar" . }}
+        </div>
+    </div>
+
+    <!-- Modal Container -->
+    <div id="modal"></div>
+
+        <!-- Add speed update polling -->
+        <div hx-get="/speed" 
+        hx-trigger="every 1s"
+        hx-swap="none">
+   </div>
+
+    <!-- Toast Container -->
+    <div class="toast toast-end"></div>
+
+    <!-- Theme Handling -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            const themeToggle = document.querySelector('.theme-toggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('change', (e) => {
+                    const theme = e.target.checked ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', theme);
+                    localStorage.setItem('theme', theme);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

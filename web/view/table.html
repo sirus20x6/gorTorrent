@@ -1,0 +1,102 @@
+{{/* templates/table.html */}}
+<div class="overflow-x-auto">
+    <table class="table w-full">
+        <thead>
+            <tr>
+                {{range .Table.Columns}}
+                {{if .Enabled}}
+                <th class="select-none" 
+                    style="width: {{.Width}}px"
+                    {{if .Sortable}}
+                    hx-get="/table/sort?col={{.ID}}"
+                    hx-target="#torrent-list"
+                    hx-push-url="true"
+                    role="button"
+                    {{end}}>
+                    <div class="flex items-center gap-2">
+                        {{.Text}}
+                        {{if eq $.Table.SortCol .ID}}
+                            {{if $.Table.SortReverse}}
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+                                </svg>
+                            {{else}}
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"/>
+                                </svg>
+                            {{end}}
+                        {{end}}
+                    </div>
+                </th>
+                {{end}}
+                {{end}}
+            </tr>
+        </thead>
+        <tbody id="table-body"
+               hx-get="/table/rows"
+               hx-trigger="load,rowsChanged from:body"
+               hx-swap="innerHTML">
+            <tr>
+                <td colspan="100%" class="text-center">
+                    <span class="loading loading-spinner"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+document.body.addEventListener('scroll', function() {
+    // Get scroll position and viewport height
+    const scrollHeight = this.scrollHeight;
+    const scrollTop = this.scrollTop;
+    const clientHeight = this.clientHeight;
+    
+    // Check if we're near the bottom (within 100px)
+    if(scrollHeight - scrollTop - clientHeight < 100) {
+        // Load more rows
+        const evt = new Event('loadMoreRows');
+        document.body.dispatchEvent(evt);
+    }
+});
+
+// Virtual scrolling optimization
+let scrollTimeout;
+const tableBody = document.getElementById('table-body');
+tableBody.addEventListener('scroll', function() {
+    if(scrollTimeout) {
+        window.cancelAnimationFrame(scrollTimeout);
+    }
+    
+    scrollTimeout = window.requestAnimationFrame(function() {
+        // Calculate visible range
+        const scrollTop = tableBody.scrollTop;
+        const rowHeight = 50; // Approximate row height
+        const visibleRows = Math.ceil(tableBody.clientHeight / rowHeight);
+        const firstVisibleRow = Math.floor(scrollTop / rowHeight);
+        
+        // Update URL with current scroll position
+        const url = new URL(window.location);
+        url.searchParams.set('scroll', firstVisibleRow);
+        history.replaceState(null, '', url);
+        
+        // Request visible range from server
+        if(tableBody.querySelector('[hx-trigger="revealed"]')) {
+            htmx.trigger(tableBody, 'getVisibleRows', {
+                start: firstVisibleRow,
+                count: visibleRows
+            });
+        }
+    });
+});
+
+// Restore scroll position on page load
+window.addEventListener('load', function() {
+    const url = new URL(window.location);
+    const scroll = url.searchParams.get('scroll');
+    if(scroll) {
+        const rowHeight = 50;
+        tableBody.scrollTop = scroll * rowHeight;
+    }
+});
+</script>

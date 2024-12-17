@@ -1,0 +1,114 @@
+{{/* templates/partials/speed_graph.html */}}
+<div class="card bg-base-200 shadow-xl">
+    <div class="card-body">
+        <h2 class="card-title">Transfer Speed Graph</h2>
+        <div class="h-64">
+            <canvas id="speedGraph"></canvas>
+        </div>
+        <div class="stats bg-base-300 shadow mt-4">
+            <div class="stat">
+                <div class="stat-title">Download Speed</div>
+                <div class="stat-value text-success" id="currentDownSpeed">0 KB/s</div>
+            </div>
+            <div class="stat">
+                <div class="stat-title">Upload Speed</div>
+                <div class="stat-value text-info" id="currentUpSpeed">0 KB/s</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('speedGraph').getContext('2d');
+    let maxDataPoints = {{ .Settings.MaxSeconds }}; // From Go settings
+    
+    // Initialize data arrays
+    const labels = [...Array(maxDataPoints)].map(() => '');
+    const downloadData = new Array(maxDataPoints).fill(0);
+    const uploadData = new Array(maxDataPoints).fill(0);
+
+    const chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Download',
+                    data: downloadData,
+                    borderColor: '#4ade80', // DaisyUI success color
+                    backgroundColor: 'rgba(74, 222, 128, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                },
+                {
+                    label: 'Upload',
+                    data: uploadData,
+                    borderColor: '#60a5fa', // DaisyUI info color
+                    backgroundColor: 'rgba(96, 165, 250, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Speed (KB/s)'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            },
+            animation: {
+                duration: 0 // Disable animations for better performance
+            }
+        }
+    });
+
+    // Function to convert bytes to human readable speed
+    function formatSpeed(bytes) {
+        const units = ['B/s', 'KB/s', 'MB/s', 'GB/s'];
+        let unit = 0;
+        let speed = bytes;
+        while (speed >= 1024 && unit < units.length - 1) {
+            speed /= 1024;
+            unit++;
+        }
+        return speed.toFixed(1) + ' ' + units[unit];
+    }
+
+    // Listen for HTMX trigger with new speed data
+    document.body.addEventListener('speedUpdate', function(evt) {
+        const speeds = JSON.parse(evt.detail);
+        
+        // Update speed stats
+        document.getElementById('currentDownSpeed').textContent = formatSpeed(speeds.download);
+        document.getElementById('currentUpSpeed').textContent = formatSpeed(speeds.upload);
+
+        // Add new data points
+        downloadData.push(speeds.download / 1024); // Convert to KB/s
+        uploadData.push(speeds.upload / 1024);
+        
+        // Remove old data points
+        if (downloadData.length > maxDataPoints) {
+            downloadData.shift();
+            uploadData.shift();
+        }
+
+        // Update chart
+        chart.data.datasets[0].data = downloadData;
+        chart.data.datasets[1].data = uploadData;
+        chart.update('none'); // Update without animation
+    });
+});
+</script>

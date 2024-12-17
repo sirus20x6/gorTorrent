@@ -1,0 +1,64 @@
+{{/* templates/components/table.html */}}
+{{ define "table" }}
+<div class="overflow-x-auto">
+    <table class="table w-full">
+        <thead>
+            <tr>
+                {{ range .Columns }}
+                {{ if .Enabled }}
+                <th class="cursor-pointer select-none" 
+                    hx-get="{{ $.Endpoint }}"
+                    hx-target="#{{ $.ID }}"
+                    hx-include="[name='search'], [name='filter']"
+                    hx-vals='{"sort": "{{ .ID }}"}'
+                    style="width: {{ .Width }}">
+                    <div class="flex items-center gap-2">
+                        {{ .Text }}
+                        {{ if eq $.SortCol .ID }}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                            {{ if $.SortReverse }}
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            {{ else }}
+                            <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
+                            {{ end }}
+                        </svg>
+                        {{ end }}
+                    </div>
+                </th>
+                {{ end }}
+                {{ end }}
+            </tr>
+        </thead>
+        <tbody>
+            {{ range .RowIDs }}
+            {{ with (index $.Rows .) }}
+            {{ if .Enabled }}
+            <tr class="hover" {{ range $key, $value := .Attr }}{{ $key }}="{{ $value }}"{{ end }}>
+                {{ range $i, $value := .Data }}
+                {{ $col := index $.Columns $i }}
+                {{ if $col.Enabled }}
+                <td class="{{ align $col.Align }}">
+                    {{ if eq $i 0 }}
+                    {{ if .Icon }}
+                    <span class="{{ .Icon }} mr-2"></span>
+                    {{ end }}
+                    {{ end }}
+                    {{ if eq $col.Type 4 }}
+                    <div class="flex items-center gap-2">
+                        <progress class="progress progress-primary w-20" value="{{ $value }}" max="100"></progress>
+                        <span class="text-sm">{{ printf "%.1f%%" $value }}</span>
+                    </div>
+                    {{ else }}
+                    {{ format $value $col.Type }}
+                    {{ end }}
+                </td>
+                {{ end }}
+                {{ end }}
+            </tr>
+            {{ end }}
+            {{ end }}
+            {{ end }}
+        </tbody>
+    </table>
+</div>
+{{ end }}
